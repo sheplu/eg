@@ -1,0 +1,43 @@
+{
+  "name": "eg",
+  "version": "0.1.0",
+  "description": "Express 5 API generator",
+  "type": "module",
+  "bin": {
+    "eg": "./dist/cli.js"
+  },
+  "files": [
+    "dist",
+    "templates",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "build": "tsc -p tsconfig.build.json && node scripts/copy-templates.mjs",
+    "dev": "tsx src/cli.ts",
+    "lint": "oxlint .",
+    "test": "node --import tsx --test test/**/*.test.ts",
+    "test:unit": "node --import tsx --test test/unit/**/*.test.ts",
+    "test:integration": "node --import tsx --test test/integration/**/*.test.ts",
+    "test:coverage": "node --experimental-test-coverage --test-coverage-include=src/**/*.ts --test-coverage-exclude=src/cli.ts --test-coverage-lines=95 --test-coverage-functions=95 --test-coverage-branches=95 --import tsx --test test/**/*.test.ts",
+    "typecheck": "tsc --noEmit"
+  },
+  "keywords": [
+    "express",
+    "express-generator",
+    "express5",
+    "typescript",
+    "api"
+  ],
+  "author": "",
+  "license": "MIT",
+  "engines": {
+    "node": ">=20.11.0"
+  },
+  "devDependencies": {
+    "@types/node": "^25.9.1",
+    "oxlint": "^1.67.0",
+    "tsx": "^4.22.3",
+    "typescript": "^6.0.3"
+  }
+}
