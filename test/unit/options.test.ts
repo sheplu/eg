@@ -79,6 +79,21 @@ describe('formatNextSteps', () => {
     assert.doesNotMatch(output, /npm install/);
   });
 
+  it('uses the absolute path when the target lives outside cwd', () => {
+    const output = formatNextSteps(
+      {
+        installed: true,
+        packageName: 'my-api',
+        projectName: 'my-api',
+        targetDirectory: '/var/tmp/my-api',
+      },
+      '/home/user/projects',
+    );
+
+    assert.match(output, /cd \/var\/tmp\/my-api/);
+    assert.doesNotMatch(output, /\.\.\//);
+  });
+
   it('uses the current directory when the target matches cwd', () => {
     const output = formatNextSteps(
       {

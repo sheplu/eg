@@ -44,6 +44,12 @@ describe('generateProject', () => {
 
     const generatedReadme = await readFile(join(targetDirectory, 'README.md'), 'utf8');
     assert.match(generatedReadme, /^# My API/m);
+
+    // The template ships `gitignore` (npm strips `.gitignore` from tarballs);
+    // the generator must restore the dotfile name and drop the renamed source.
+    const gitignore = await readFile(join(targetDirectory, '.gitignore'), 'utf8');
+    assert.match(gitignore, /^node_modules\//m);
+    await assert.rejects(() => readFile(join(targetDirectory, 'gitignore'), 'utf8'), /ENOENT/);
   });
 
   it('escapes project names used inside generated TypeScript string literals', async () => {

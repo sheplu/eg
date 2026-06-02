@@ -62,6 +62,8 @@ async function applyTemplateVariables(
       await writeFile(currentPath, renderTemplate(content, variables));
     }
 
+    // The `.tpl` suffix lets the template carry filenames npm would otherwise
+    // strip from a published tarball (e.g. `.gitignore.tpl` -> `.gitignore`).
     if (extension === '.tpl') {
       await rename(currentPath, currentPath.slice(0, -4));
     }

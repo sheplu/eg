@@ -33,7 +33,10 @@ export async function generateProject(options: GeneratorOptions): Promise<Genera
 }
 
 export function formatNextSteps(result: GenerateResult, cwd = process.cwd()): string {
-  const target = relative(cwd, result.targetDirectory) || '.';
+  const relativeTarget = relative(cwd, result.targetDirectory);
+  // Fall back to the absolute path when the target lives outside cwd, so we
+  // never print a long chain of `../` segments.
+  const target = relativeTarget === '' ? '.' : relativeTarget.startsWith('..') ? result.targetDirectory : relativeTarget;
   const commands = [`cd ${formatShellPath(target)}`];
 
   if (!result.installed) {
